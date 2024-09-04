@@ -13,6 +13,7 @@ Este projeto tem como objetivo informatizar o balcão de vendas de uma padaria, 
 Mencione as ferramentas que você usou para criar seu projeto
 
 * C#
+* PostgreSQL
 * Visual Studio
 * Git
 
