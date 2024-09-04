@@ -1,4 +1,5 @@
 using System.Xml.Serialization;
+using Npgsql;
 
 public class Costumer
 {
@@ -6,7 +7,9 @@ public class Costumer
     public string Name { get; set; }
     public string Document { get; set; }
     public int Points { get; set; }
+    private string connectionString = "Host=dpg-crcb7cjqf0us738ikg5g-a.oregon-postgres.render.com;Port=5432;Username=moutsmaster;Password=HLnW2jj3GqvAlyo2HLnmtdCdo4uL1TJ7;Database=mouts_padaria";
 
+    public Costumer(){}
     public Costumer(string Name, string document){
         this.Name = Name;
         this.Document = document;
@@ -24,10 +27,29 @@ public class Costumer
         }
         decimal  soma = 0;
         decimal valor = 10;
-
+        int points = 0;
         while(soma < value){
-            this.Points++;
+            points++;
             soma+=valor;
+        }
+        try
+        {
+            string updateQuery = "UPDATE customers SET points = points + @points WHERE id = @id";
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(updateQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@points",points);
+                    command.Parameters.AddWithValue("@id", this.Id);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        catch (Exception)
+        {
+            // Rethrow the caught exception
+            throw;
         }
     }
 }
