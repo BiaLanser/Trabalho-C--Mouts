@@ -56,7 +56,7 @@ class ProductsRespository : IRepository<Product>
             using (NpgsqlCommand command = new NpgsqlCommand(deleteQuery, connection))
             {
                 command.Parameters.AddWithValue("@id", id);
-                onnection.Open();
+                connection.Open();
                 command.ExecuteNonQuery();
             }
                 
@@ -81,7 +81,7 @@ class ProductsRespository : IRepository<Product>
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("id")),
                             Description = reader.GetString(reader.GetOrdinal("description")),
-                            Price = reader.GetString(reader.GetOrdinal("price")),
+                            Price = reader.GetDecimal(reader.GetOrdinal("price")),
                         });
                     }
                 }
@@ -95,8 +95,9 @@ class ProductsRespository : IRepository<Product>
 
     public override Product FindById(int id)
     {
+        Product product = null;
         try{
-            Product product = null;
+            
             string selectQuery = "SELECT id, description, price FROM products WHERE id = @id";
             using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
             using (NpgsqlCommand command = new NpgsqlCommand(selectQuery, connection))
@@ -110,7 +111,7 @@ class ProductsRespository : IRepository<Product>
                         product = new Product{
                         Id = reader.GetInt32(reader.GetOrdinal("id")),
                         Description = reader.GetString(reader.GetOrdinal("description")),
-                        Price = reader.GetString(reader.GetOrdinal("price")),
+                        Price = reader.GetDecimal(reader.GetOrdinal("price")),
                         };
                     }
                 }
@@ -121,7 +122,7 @@ class ProductsRespository : IRepository<Product>
         catch (Exception ex){
             throw new Exception(ex.Message);
         }
-        return pessoa;
+        return product;
     }
     
 }

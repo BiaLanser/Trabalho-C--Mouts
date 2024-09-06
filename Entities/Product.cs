@@ -4,7 +4,7 @@ class Product
     public string Description { get; set; }
     public decimal Price { get; set; }
 
-
+    public Product(){}
     public Product(string Description, decimal Price){
         this.Description = Description;
         this.Price = Price;
