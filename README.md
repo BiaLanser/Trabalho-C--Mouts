@@ -20,8 +20,6 @@ Mencione as ferramentas que você usou para criar seu projeto
 
 ## ✒️ Autores
 
-Mencione todos aqueles que ajudaram a levantar o projeto desde o seu início
-
 * Bianca Lanser Peres
 * Gabriel Fernandes
 * Paola Kloch
